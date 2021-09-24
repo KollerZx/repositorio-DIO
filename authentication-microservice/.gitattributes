@@ -1,0 +1,7 @@
+*.ts linguist-detectable=true
+*.js linguist-detectable=true
+*.ejs linguist-detectable=false
+*.html linguist-detectable=false
+*.css linguist-detectable=false
+*.sh linguist-detectable=false
+*.pem linguist-detectable=false
