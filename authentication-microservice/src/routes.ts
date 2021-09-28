@@ -1,5 +1,6 @@
 import { Router, Request, Response, NextFunction } from "express";
 import {StatusCodes} from 'http-status-codes'
+import UserController from './Adapters/UserController'
 const router = Router()
 
 const users = [
@@ -10,29 +11,17 @@ const users = [
         
     }
 ]
-router.get('/status', ( req: Request, res: Response, next: NextFunction ) => {
-    res.status(StatusCodes.OK).send({ foo: 'online'})
+router.get('/status',  ( req: Request, res: Response, next: NextFunction ) => {
+    res.sendStatus(StatusCodes.OK)
 })
 
-router.get('/users', ( req: Request, res: Response, next: NextFunction ) => {
-    res.status(StatusCodes.OK).json(users)
-})
-router.get('/users/:uuid', ( req: Request<{ uuid: string }>, res: Response, next: NextFunction ) => {
-    const uuid = req.params.uuid
-    const user = users.find(user => user.uuid === uuid )
+router.get('/users', async ( req: Request, res: Response, next: NextFunction ) => UserController.findAll(req, res))
 
-    res.status(StatusCodes.OK).json(user)
-})
-router.post('/users', ( req: Request<{uuid: string}>, res: Response, next: NextFunction ) => {
-    const {uuid, userName, password} = req.body
-    const newUser = {
-        uuid,
-        userName,
-        password
-    }
-    users.push(newUser)
-    res.status(StatusCodes.CREATED).json(newUser)
-})
+router.get('/users/:uuid', ( req: Request<{ uuid: string }>, res: Response, next: NextFunction ) => UserController.findById(req, res))
+
+
+router.post('/users', ( req: Request<{uuid: string}>, res: Response, next: NextFunction ) => UserController.createUser(req,res))
+
 router.put('/users/:uuid', ( req: Request<{uuid: string}>, res: Response, next: NextFunction ) => {
     const {userName, password} = req.body
     const uuid = req.params.uuid
