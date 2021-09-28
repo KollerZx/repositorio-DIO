@@ -1,6 +1,8 @@
 import db from '../config/db'
 import User from "../Entities/User";
 import { IUserRepositorys } from "./contracts/IUserRepositorys";
+import dotenv from 'dotenv'
+dotenv.config()
 class UserRepository implements IUserRepositorys{
     async findAllUsers(): Promise<User[]> {
         const query = `SELECT uuid, username FROM application_user`
@@ -20,20 +22,16 @@ class UserRepository implements IUserRepositorys{
     async createUser(username: string, password: string): Promise<string> {
         const user = new User(username, password)
         
-        //TODO: verificar retorno dos metodos gets de User
         //TODO: Implementar bcrypt para encriptar senhas
-        const uuid = user.getId
-        const userName = user.getUsername
-        const values = [uuid, userName, password]
+        const values = [user.uuid, user.username, password, process.env.PASS_SALT]
         const script = `
             INSERT INTO application_user
             (uuid, username, password) VALUES
-            ($1, $2, crypt($3, 'my_salt'))
+            ($1, $2, crypt($3, $4))
         `
-        const { rows } = await db.query(script, values)
-        const [newUser] = rows
-
-        return newUser.uuid
+        await db.query(script, values)
+        
+        return user.uuid
 
         
     }
