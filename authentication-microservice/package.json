@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "./dist/server.js",
   "scripts": {
-    "dev": "tsnd --respawn --transpile-only --ignore-watch node_modules --no-notify src/server.ts",
+    "dev": "tsnd --respawn --transpile-only --ignore-watch node_modules --no-notify src/external/infra/server.ts",
     "start": "node ./",
     "build": "tsc -p ."
   },

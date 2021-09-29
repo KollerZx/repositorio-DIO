@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import {StatusCodes} from 'http-status-codes'
-import { DatabaseError } from 'pg';
-import UserRepository from '../repositories/User.repository'
+import UserRepository from '../../repositories/User.repository'
 
 class UserController{
     async findAll(req: Request, res: Response, next: NextFunction){
