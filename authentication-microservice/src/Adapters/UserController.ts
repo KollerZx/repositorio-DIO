@@ -32,8 +32,20 @@ class UserController{
                 message: error.message
             })
         }
-        
-        
+    }
+
+    async updateUser(req: Request, res: Response){
+        const { username, password } = req.body
+        const { uuid } = req.params
+        try {
+            await UserRepository.updateUser(uuid, username, password)
+            res.status(StatusCodes.OK).send()
+        } catch (error) {
+            res.status(StatusCodes.BAD_REQUEST).json({
+                status: StatusCodes.BAD_REQUEST,    
+                message: error.message
+            })
+        }
     }
 }
 

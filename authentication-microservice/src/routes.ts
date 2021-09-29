@@ -15,27 +15,14 @@ router.get('/status',  ( req: Request, res: Response, next: NextFunction ) => {
     res.sendStatus(StatusCodes.OK)
 })
 
-router.get('/users', async ( req: Request, res: Response, next: NextFunction ) => UserController.findAll(req, res))
+router.get('/users', async ( req: Request, res: Response, next: NextFunction ) => await UserController.findAll(req, res))
 
-router.get('/users/:uuid', ( req: Request<{ uuid: string }>, res: Response, next: NextFunction ) => UserController.findById(req, res))
+router.get('/users/:uuid', async ( req: Request<{ uuid: string }>, res: Response, next: NextFunction ) => await UserController.findById(req, res))
 
+router.post('/users', async ( req: Request<{uuid: string}>, res: Response, next: NextFunction ) => await UserController.createUser(req,res))
 
-router.post('/users', ( req: Request<{uuid: string}>, res: Response, next: NextFunction ) => UserController.createUser(req,res))
+router.put('/users/:uuid', async ( req: Request, res: Response, next: NextFunction ) =>  await UserController.updateUser(req,res))
 
-router.put('/users/:uuid', ( req: Request<{uuid: string}>, res: Response, next: NextFunction ) => {
-    const {userName, password} = req.body
-    const uuid = req.params.uuid
-
-    let userUpdate = users.findIndex((user) => user.uuid === uuid)
-    
-    users[userUpdate].userName = userName
-    users[userUpdate].password = password
-    
-    
-    res.status(StatusCodes.OK).json(users[userUpdate])
-    
-
-})
 router.delete('/users/:uuid', ( req: Request<{ uuid: string }>, res: Response, next: NextFunction ) => {
     const uuid = req.params.uuid
 
