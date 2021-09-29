@@ -3,34 +3,18 @@ import {StatusCodes} from 'http-status-codes'
 import UserController from './Adapters/UserController'
 const router = Router()
 
-const users = [
-    {
-        uuid:'abc4e5f-aef56fab2',
-        userName: 'Henrique',
-        password:'abcf544e54bbcfe4890cbfee2'
-        
-    }
-]
 router.get('/status',  ( req: Request, res: Response, next: NextFunction ) => {
-    res.sendStatus(StatusCodes.OK)
+    res.sendStatus(StatusCodes.OK).send()
 })
 
-router.get('/users', async ( req: Request, res: Response, next: NextFunction ) => await UserController.findAll(req, res))
+router.get('/users', async ( req: Request, res: Response, next: NextFunction ) => await UserController.findAll(req, res, next))
 
-router.get('/users/:uuid', async ( req: Request<{ uuid: string }>, res: Response, next: NextFunction ) => await UserController.findById(req, res))
+router.get('/users/:uuid', async ( req: Request<{ uuid: string }>, res: Response, next: NextFunction ) => await UserController.findById(req, res, next))
 
-router.post('/users', async ( req: Request<{uuid: string}>, res: Response, next: NextFunction ) => await UserController.createUser(req,res))
+router.post('/users', async ( req: Request<{uuid: string}>, res: Response, next: NextFunction ) => await UserController.createUser(req, res, next))
 
-router.put('/users/:uuid', async ( req: Request, res: Response, next: NextFunction ) =>  await UserController.updateUser(req,res))
+router.put('/users/:uuid', async ( req: Request, res: Response, next: NextFunction ) =>  await UserController.updateUser(req, res, next))
 
-router.delete('/users/:uuid', ( req: Request<{ uuid: string }>, res: Response, next: NextFunction ) => {
-    const uuid = req.params.uuid
-
-    let userDeleted = users.findIndex(user => user.uuid === uuid)
-    users.splice(userDeleted, 1)
-
-    res.status(StatusCodes.OK).json(users)
-    
-})
+router.delete('/users/:uuid', async ( req: Request<{ uuid: string }>, res: Response, next: NextFunction ) => await UserController.removeUser(req, res, next))
 
 export { router }
