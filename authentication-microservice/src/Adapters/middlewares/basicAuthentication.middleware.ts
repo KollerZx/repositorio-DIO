@@ -26,9 +26,8 @@ export default async function basicAuthenticationMiddleware(req: Request, res: R
         }
 
         req.user = user
+        next()
     } catch (error) {
         next(error)
     }
-    
-    
 }
