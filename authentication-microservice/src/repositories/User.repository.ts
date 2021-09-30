@@ -1,11 +1,11 @@
 import dotenv from 'dotenv'
 dotenv.config()
-import db from '../config/db'
+import database from './databases/postgres'
 import User from "../Entities/User";
 import DatabaseError from './Errors/DatabaseError';
 import { IUserRepositorys } from "./contracts/IUserRepositorys";
 class UserRepository implements IUserRepositorys{
-    private postgres = db
+    private postgres = database
 
     async findAllUsers(): Promise<User[]> {
         const query = `SELECT uuid, username FROM application_user`
@@ -13,7 +13,7 @@ class UserRepository implements IUserRepositorys{
         return rows
     }
 
-    async findUserById(uuid: string): Promise<User | null> {
+    async findUserById(uuid: string): Promise<User> {
         try{
             const query = `SELECT uuid, username FROM application_user WHERE uuid= $1`
             const values = [uuid]
