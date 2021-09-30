@@ -1,7 +1,7 @@
-import User from '../Entities/User'
+import IUserDTO from '../repositories/IUserDTO';
 
 declare module  'express-serve-static-core'{
     interface Request {
-        user?: User
+        user?: IUserDTO
     }
 }

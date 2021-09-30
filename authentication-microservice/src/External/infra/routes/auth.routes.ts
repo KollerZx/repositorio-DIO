@@ -1,26 +1,27 @@
 import { NextFunction, Request, Response, Router } from "express";
 import basicAuthenticationMiddleware from "../../../Adapters/middlewares/basicAuthentication.middleware";
-import JWT from 'jsonwebtoken'
 import { StatusCodes } from 'http-status-codes';
-import ForbiddenError from "../../../Adapters/Errors/ForbiddenError";
+import jwtAuthenticationMiddleware from "../../../Adapters/middlewares/jwtAuthentication.middleware";
+import generateJWT from "../../../Adapters/middlewares/generateJWT";
 
 const authRoute = Router()
 
 authRoute.post('/token', basicAuthenticationMiddleware, (req: Request, res: Response, next: NextFunction) => {
     try {
-        const user = req.user
-        if(!user){
-            throw new ForbiddenError('Usuário não informado!')
-        }
-        const jwtPayload = { username: user.username }
-        const jwtOptions = { subject: user?.uuid }
-        const secretKey: string = process.env.JWT_SECRET
-        const jwt = JWT.sign(jwtPayload, secretKey, jwtOptions )
-
+        const jwt = generateJWT(req, res, next)
+        
         res.status(StatusCodes.OK).json({ token: jwt })
     } catch (error) {
         next(error)    
     }
+})
+
+authRoute.post('/token/validate', jwtAuthenticationMiddleware, (req: Request, res: Response, next: NextFunction) => {
+    res.sendStatus(StatusCodes.OK)
+})
+//TODO: Implementar refresh token
+authRoute.post('/token/refresh', (req: Request, res: Response, next: NextFunction) => {
+    res.sendStatus(StatusCodes.NOT_IMPLEMENTED)
 })
 
 

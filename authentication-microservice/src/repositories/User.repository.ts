@@ -4,20 +4,21 @@ import database from './databases/postgres'
 import User from "../Entities/User";
 import DatabaseError from './Errors/DatabaseError';
 import { IUserRepositorys } from "./contracts/IUserRepositorys";
+import IUserDTO from './IUserDTO';
 class UserRepository implements IUserRepositorys{
     private postgres = database
 
-    async findAllUsers(): Promise<User[]> {
+    async findAllUsers(): Promise<IUserDTO[]> {
         const query = `SELECT uuid, username FROM application_user`
-        const {rows}  = await this.postgres.query<User>(query)
+        const {rows}  = await this.postgres.query<IUserDTO>(query)
         return rows
     }
 
-    async findUserById(uuid: string): Promise<User> {
+    async findUserById(uuid: string): Promise<IUserDTO> {
         try{
             const query = `SELECT uuid, username FROM application_user WHERE uuid= $1`
             const values = [uuid]
-            const {rows} = await this.postgres.query<User>(query, values)
+            const {rows} = await this.postgres.query<IUserDTO>(query, values)
             if(rows.length === 0){
                 throw new DatabaseError("Usuário não existe")
             }
@@ -28,7 +29,7 @@ class UserRepository implements IUserRepositorys{
         }   
     }
 
-    async findByUsernameAndPassword(username: string, password: string): Promise<User | null> {
+    async findByUsernameAndPassword(username: string, password: string): Promise<IUserDTO | null> {
         try {
             const query = `
                 SELECT uuid, username
@@ -36,8 +37,9 @@ class UserRepository implements IUserRepositorys{
                 WHERE username = $1
                 AND password = crypt($2, $3)
             `
+            
             const values = [username, password, process.env.PASS_SALT]
-            const { rows } = await this.postgres.query<User>(query, values)
+            const { rows } = await this.postgres.query<IUserDTO>(query, values)
             const [user] = rows
             return user || null
         } catch (error) {
