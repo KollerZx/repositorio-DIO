@@ -5,13 +5,14 @@ import User from "../Entities/User";
 import DatabaseError from './Errors/DatabaseError';
 import { IUserRepositorys } from "./contracts/IUserRepositorys";
 class UserRepository implements IUserRepositorys{
+    
     private postgres = db
     async findAllUsers(): Promise<User[]> {
         const query = `SELECT uuid, username FROM application_user`
         const {rows}  = await this.postgres.query<User>(query)
         return rows
     }
-    async findUserById(uuid: string): Promise<User> {
+    async findUserById(uuid: string): Promise<User | null> {
         try{
             const query = `SELECT uuid, username FROM application_user WHERE uuid= $1`
             const values = [uuid]
@@ -23,9 +24,30 @@ class UserRepository implements IUserRepositorys{
             return user
         }catch(error){
             throw new DatabaseError("Erro na consulta por Id", error)
+        }   
+    }
+
+    async findByUsernameAndPassword(username: string, password: string): Promise<User | null> {
+        
+        try {
+            const query = `
+                SELECT uuid, username
+                FROM application_user
+                WHERE username = $1
+                AND password = crypt($2, $3)
+            `
+            const values = [username, password, process.env.PASS_SALT]
+            const { rows } = await this.postgres.query<User>(query, values)
+            const [user] = rows
+    
+            return user || null
+            
+        } catch (error) {
+            throw new DatabaseError("Erro na consulta por username e password", error)
         }
         
     }
+
     async createUser(username: string, password: string): Promise<string> {
         const user = new User(username, password)
         
@@ -72,6 +94,7 @@ class UserRepository implements IUserRepositorys{
             throw new DatabaseError("Erro ao remover o Usuário", error)
         }
     }
+    
   
 
 }

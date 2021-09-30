@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from "express";
+import UserRepository from "../../repositories/User.repository";
 import ForbiddenError from "../Errors/ForbiddenError";
 
-export default function authBasic(req: Request, res: Response, next: NextFunction){
+export default async function authBasic(req: Request, res: Response, next: NextFunction){
     try {
         const authorizationHeader = req.headers['authorization']
         if(!authorizationHeader){
@@ -11,6 +12,14 @@ export default function authBasic(req: Request, res: Response, next: NextFunctio
         if(authenticationType !== 'Basic' || !token){
             throw new ForbiddenError('Autenticação Inválida')
         }
+        const tokenContent = Buffer.from(token, 'base64').toString('utf-8')
+        const [username, password] = tokenContent.split(':')
+        
+        if(!username || !password){
+            throw new ForbiddenError('Credenciais não preenchidas!')
+        }
+        const user = await UserRepository.findByUsernameAndPassword(username, password)
+        console.log(user)
     } catch (error) {
         next(error)
     }
