@@ -8,6 +8,7 @@
     "typeRoots":[
       ".src/@types",
       "./node_modules/@types"
+      
     ],
     "outDir": "./dist",
     "removeComments":true,

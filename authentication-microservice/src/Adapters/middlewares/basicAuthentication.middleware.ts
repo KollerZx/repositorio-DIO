@@ -3,10 +3,8 @@ dotenv.config()
 import { NextFunction, Request, Response } from "express";
 import UserRepository from "../../repositories/User.repository";
 import ForbiddenError from "../Errors/ForbiddenError";
-import JWT from 'jsonwebtoken'
-import { StatusCodes } from 'http-status-codes';
 
-export default async function authBasic(req: Request, res: Response, next: NextFunction){
+export default async function basicAuthenticationMiddleware(req: Request, res: Response, next: NextFunction){
     try {
         const authorizationHeader = req.headers['authorization']
         if(!authorizationHeader){
@@ -27,12 +25,7 @@ export default async function authBasic(req: Request, res: Response, next: NextF
             throw new ForbiddenError('Usuário ou Senha inválidos!')
         }
 
-        const jwtPayload = { username: user.username }
-        const jwtOptions = { subject: user?.uuid }
-        const secretKey: string = process.env.JWT_SECRET
-        const jwt = JWT.sign(jwtPayload, secretKey, jwtOptions )
-
-        res.status(StatusCodes.OK).json({ token: jwt })
+        req.user = user
     } catch (error) {
         next(error)
     }
