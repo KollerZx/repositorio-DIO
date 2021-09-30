@@ -5,13 +5,14 @@ import User from "../Entities/User";
 import DatabaseError from './Errors/DatabaseError';
 import { IUserRepositorys } from "./contracts/IUserRepositorys";
 class UserRepository implements IUserRepositorys{
-    
     private postgres = db
+
     async findAllUsers(): Promise<User[]> {
         const query = `SELECT uuid, username FROM application_user`
         const {rows}  = await this.postgres.query<User>(query)
         return rows
     }
+
     async findUserById(uuid: string): Promise<User | null> {
         try{
             const query = `SELECT uuid, username FROM application_user WHERE uuid= $1`
@@ -28,7 +29,6 @@ class UserRepository implements IUserRepositorys{
     }
 
     async findByUsernameAndPassword(username: string, password: string): Promise<User | null> {
-        
         try {
             const query = `
                 SELECT uuid, username
@@ -39,13 +39,10 @@ class UserRepository implements IUserRepositorys{
             const values = [username, password, process.env.PASS_SALT]
             const { rows } = await this.postgres.query<User>(query, values)
             const [user] = rows
-    
             return user || null
-            
         } catch (error) {
             throw new DatabaseError("Erro na consulta por username e password", error)
         }
-        
     }
 
     async createUser(username: string, password: string): Promise<string> {
@@ -59,7 +56,6 @@ class UserRepository implements IUserRepositorys{
             ($1, $2, crypt($3, $4))
         `
         await this.postgres.query(script, values)
-        
         return user.uuid
     }
     async updateUser(uuid: string, username: string, password: string): Promise<void> {
@@ -94,9 +90,6 @@ class UserRepository implements IUserRepositorys{
             throw new DatabaseError("Erro ao remover o Usuário", error)
         }
     }
-    
-  
-
 }
 
 export default new UserRepository()
