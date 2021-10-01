@@ -1,8 +1,9 @@
 # Microserviço de Autenticação
 
-Esse projeto visa implementar um microserviço de autenticação para endpoints de uma API, utilizando <a href="https://jwt.io/libraries" >JWT</a> para geração do Token
+Esse projeto visa implementar um microserviço de autenticação para endpoints de uma API, utilizando <a href="https://jwt.io/libraries" >JWT</a> para geração do Token.
 
-## Composição do Projeto
+
+## Endpoints
 
 ### Usuários
 
@@ -16,6 +17,7 @@ Esse projeto visa implementar um microserviço de autenticação para endpoints 
 
 * POST /token
 * POST /token/validate
+* POST /token/refresh
 
 ## 🛠️ Construído com
 
