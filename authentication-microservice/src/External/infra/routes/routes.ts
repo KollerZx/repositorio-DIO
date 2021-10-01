@@ -1,6 +1,7 @@
 import { Router, Request, Response, NextFunction } from "express";
 import {StatusCodes} from 'http-status-codes'
-import UserController from '../../../Adapters/Controllers/UserController'
+import UserController  from "../../../Adapters/Controllers/UserController";
+
 const router = Router()
 
 router.get('/status',  ( req: Request, res: Response, next: NextFunction ) => {
