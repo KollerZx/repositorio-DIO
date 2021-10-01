@@ -1,5 +1,5 @@
 import ForbiddenError from "../../Adapters/Errors/ForbiddenError";
-import  GenerateTokenProvider  from "../../Adapters/Providers/GenerateToken";
+import  GenerateTokenProvider  from "../../Providers/GenerateToken";
 import { IRefreshTokenDTO } from "../../repositories/IRefreshTokenDTO";
 import RefreshTokenUserRepository from "../../repositories/RefreshTokenUser.repository";
 

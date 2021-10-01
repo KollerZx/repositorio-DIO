@@ -1,17 +1,22 @@
 import { NextFunction, Request, Response } from 'express';
 import {StatusCodes} from 'http-status-codes'
-import UserRepository from '../../repositories/User.repository'
+import { UsersUseCase } from '../../UseCases/Users/UsersUseCase';
 
 class UserController{
+    private usersUseCase: UsersUseCase
+
+    constructor(usersUseCase: UsersUseCase){
+        this.usersUseCase = usersUseCase
+    }
     async findAll(req: Request, res: Response, next: NextFunction){
-        const users = await UserRepository.findAllUsers()
+        const users = await this.usersUseCase.findAllUsers()
 
         res.status(StatusCodes.OK).json(users)
     }
     async findById(req: Request, res: Response, next: NextFunction){
         const { uuid } = req.params
         try {
-            const user = await UserRepository.findUserById(uuid)
+            const user = await this.usersUseCase.findUserById(uuid)
             res.status(StatusCodes.OK).json(user)
         } catch (error) {
             next(error)
@@ -21,8 +26,8 @@ class UserController{
         const { username, password } = req.body
 
         try {
-            const newUser = UserRepository.createUser(username, password)
-            res.status(StatusCodes.CREATED).json(newUser)
+            const user_id = await  this.usersUseCase.createUser(username, password)
+            res.status(StatusCodes.CREATED).json(user_id)
         } catch (error) {
             next(error)
         }
@@ -32,7 +37,7 @@ class UserController{
         const { username, password } = req.body
         const { uuid } = req.params
         try {
-            await UserRepository.updateUser(uuid, username, password)
+            await this.usersUseCase.updateUser(uuid, username, password)
             res.status(StatusCodes.OK).send()
         } catch (error) {
             next(error)
@@ -41,12 +46,16 @@ class UserController{
     async removeUser(req: Request, res: Response, next: NextFunction){
         const { uuid } = req.params
         try {
-            await UserRepository.removeUser(uuid)
+            await this.usersUseCase.removeUser(uuid)
             res.status(StatusCodes.OK).send()
         } catch (error) {
             next(error)
         }
     }
+    async findByUsernameAndPassword(req: Request, res: Response, next: NextFunction){
+        
+    }
+
 }
 
-export default new UserController()
+export { UserController }

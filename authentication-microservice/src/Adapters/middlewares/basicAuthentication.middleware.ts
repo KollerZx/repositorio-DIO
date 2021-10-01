@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 dotenv.config()
 import { NextFunction, Request, Response } from "express";
-import UserRepository from "../../repositories/User.repository";
+import { usersUseCase } from '../../External/Factorys/index'
 import ForbiddenError from "../Errors/ForbiddenError";
 
 export default async function basicAuthenticationMiddleware(req: Request, res: Response, next: NextFunction){
@@ -20,7 +20,7 @@ export default async function basicAuthenticationMiddleware(req: Request, res: R
         if(!username || !password){
             throw new ForbiddenError('Credenciais não preenchidas!')
         }
-        const user = await UserRepository.findByUsernameAndPassword(username, password)
+        const user = await usersUseCase.findByUsernameAndPassword(username, password)
         if(!user){
             throw new ForbiddenError('Usuário ou Senha inválidos!')
         }

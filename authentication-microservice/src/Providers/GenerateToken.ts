@@ -1,5 +1,5 @@
 import JWT, { SignOptions } from 'jsonwebtoken'
-import EnvironmentException from '../Errors/EnvironmentException'
+import EnvironmentException from '../Adapters/Errors/EnvironmentException'
 export class GenerateTokenProvider {
 
     async execute(userId: string) {

@@ -1,20 +1,19 @@
 import dotenv from 'dotenv'
 dotenv.config()
 import database from './databases/postgres'
-import User from "../Entities/User";
 import DatabaseError from './Errors/DatabaseError';
 import { IUserRepositorys } from "./contracts/IUserRepositorys";
 import IUserDTO from './IUserDTO';
 class UserRepository implements IUserRepositorys{
     private postgres = database
 
-    async findAllUsers(): Promise<IUserDTO[]> {
+    async findAll(): Promise<IUserDTO[]> {
         const query = `SELECT uuid, username FROM application_user`
         const {rows}  = await this.postgres.query<IUserDTO>(query)
         return rows
     }
 
-    async findUserById(uuid: string): Promise<IUserDTO> {
+    async findById(uuid: string): Promise<IUserDTO> {
         try{
             const query = `SELECT uuid, username FROM application_user WHERE uuid= $1`
             const values = [uuid]
@@ -29,7 +28,7 @@ class UserRepository implements IUserRepositorys{
         }   
     }
 
-    async findByUsernameAndPassword(username: string, password: string): Promise<IUserDTO | null> {
+    async findByUsernameAndPassword(username: string, password: string): Promise<IUserDTO> {
         try {
             const query = `
                 SELECT uuid, username
@@ -41,28 +40,25 @@ class UserRepository implements IUserRepositorys{
             const values = [username, password, process.env.PASS_SALT]
             const { rows } = await this.postgres.query<IUserDTO>(query, values)
             const [user] = rows
-            return user || null
+            return user
         } catch (error) {
             throw new DatabaseError("Erro na consulta por username e password", error)
         }
     }
 
-    async createUser(username: string, password: string): Promise<string> {
-        const user = new User(username, password)
-        
+    async create(uuid: string, username: string, password: string): Promise<void> {
         //TODO: Implementar bcrypt para encriptar senhas
-        const values = [user.uuid, user.username, password, process.env.PASS_SALT]
+        const values = [uuid, username, password, process.env.PASS_SALT]
         const script = `
             INSERT INTO application_user
             (uuid, username, password) VALUES
             ($1, $2, crypt($3, $4))
         `
         await this.postgres.query(script, values)
-        return user.uuid
     }
-    async updateUser(uuid: string, username: string, password: string): Promise<void> {
+    async update(uuid: string, username: string, password: string): Promise<void> {
             try{
-                await this.findUserById(uuid)
+                await this.findById(uuid)
                 //TODO: Implementar bcrypt para encriptar senhas
                 const values = [username, password, uuid, process.env.PASS_SALT]
                 const script = `
@@ -78,7 +74,7 @@ class UserRepository implements IUserRepositorys{
                 throw new DatabaseError("Não foi possível atualizar o Usuário", error)
             }
     }
-    async removeUser(uuid: string): Promise<void> {
+    async remove(uuid: string): Promise<void> {
         try {
             const script = `
                 DELETE 
@@ -94,4 +90,4 @@ class UserRepository implements IUserRepositorys{
     }
 }
 
-export default new UserRepository()
+export { UserRepository }

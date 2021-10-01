@@ -1,6 +1,6 @@
-import { RefreshToken } from "../../Entities/RefreshToken";
+import { RefreshToken } from "../Entities/RefreshToken";
 import dayjs from 'dayjs'
-import { RefreshTokenUserUseCase } from "../../UseCases/TokenUser/RefreshTokenUserUseCase";
+import { RefreshTokenUserUseCase } from "../UseCases/TokenUser/RefreshTokenUserUseCase";
 class GenerateRefreshToken{
     
     async execute(userId: string, username?: string){

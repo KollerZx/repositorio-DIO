@@ -1,5 +1,5 @@
-import GenerateRefreshToken from "../../Adapters/Providers/GenerateRefreshToken";
-import GenerateTokenProvider from "../../Adapters/Providers/GenerateToken";
+import GenerateRefreshToken from "../../Providers/GenerateRefreshToken";
+import GenerateTokenProvider from "../../Providers/GenerateToken";
 
 class GenerateTokenUserUseCase{
 
