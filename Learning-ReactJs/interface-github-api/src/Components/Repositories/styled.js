@@ -23,7 +23,7 @@ export const WrapperTab = styled(Tab)`
     user-select: none;
     z-index:99999;
     cursor: pointer;
-    
+    transition:0.3s ease;
     &:focus{
         outline: none;
     }

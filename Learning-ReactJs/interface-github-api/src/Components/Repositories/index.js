@@ -1,6 +1,9 @@
 import RepositoryItem from '../Repository-item'
+import useGithub from '../../Hooks/github-hooks'
 import * as S from './styled'
 const Repositories = () => {
+
+    const {githubState} = useGithub()
     return(
         <S.WrapperTabs 
             selectedTabClassName="is-selected"
@@ -12,9 +15,9 @@ const Repositories = () => {
             </S.WrapperTabList>
             <S.WrapperTabPanel>
                 <RepositoryItem 
-                    name="calculate-average-price.github.io" 
-                    fullName="KollerZx/calculate-average-price.github.io" 
-                    linkToRepo="https://github.com/KollerZx/calculate-average-price.github.io"
+                    name={githubState.repositories.name} 
+                    fullName={githubState.repositories.full_name} 
+                    linkToRepo={githubState.repositories.html_url}
                 />
             </S.WrapperTabPanel>
             <S.WrapperTabPanel>Starred</S.WrapperTabPanel>
