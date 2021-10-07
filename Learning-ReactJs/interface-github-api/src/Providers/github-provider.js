@@ -1,7 +1,6 @@
 import { createContext, useCallback, useState } from 'react'
 import api from '../Components/Services/api'
 export const GithubContext = createContext({
-    loading:false,
     user:{},
     repositories:[],
     starred:[]
@@ -10,6 +9,7 @@ export const GithubContext = createContext({
 const GithubProvider = ({ children }) => {
     const [githubState, setGithubState] = useState({
         loading:false,
+        hasUser:false,
         user:{
             login: undefined,
             avatar_url:undefined,
@@ -29,7 +29,7 @@ const GithubProvider = ({ children }) => {
     })
 
     
-    const getUser = async username =>{
+    const getUser = async username => {
         setGithubState( prevState => ({
             ...prevState,
             loading: !prevState.loading
@@ -48,9 +48,10 @@ const GithubProvider = ({ children }) => {
             following,
             public_gists,
             public_repos } = data
-
+        
             setGithubState( prevState => ({
                 ...prevState,
+                hasUser:true,
                 loading:!prevState.loading,
                 user:{
                     login,
@@ -66,28 +67,23 @@ const GithubProvider = ({ children }) => {
                     public_repos
                 } 
             }))
+
             return githubState
     }
 
-    // TODO: setar repositorios e renderizar
-    const getRepos = async (username) => {
+    const getUserRepos = async (username) => {
         const { data } = await api.get(`/users/${username}/repos`)
-        console.log(data)
-        const { name, full_name, html_url} = data
-        setGithubState( prevState => ({
+        
+        setGithubState((prevState)=>({
             ...prevState,
-            repositories: githubState.repositories.push({name, full_name, html_url})
+            repositories: data
         }))
-
-        return githubState
     }
     
-    
-
     const contextValue = {
         githubState,
         getUser: useCallback(username => getUser(username),[getUser]),
-        getRepos: useCallback(username => getRepos(username), [getRepos])
+        getUserRepos: useCallback(username => getUserRepos(username), [])
     }
     return <GithubContext.Provider value={ contextValue }>{ children }</GithubContext.Provider >
 }

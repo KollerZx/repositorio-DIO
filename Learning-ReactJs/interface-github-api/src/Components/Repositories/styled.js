@@ -4,7 +4,7 @@ import 'react-tabs/style/react-tabs.css';
 
 export const WrapperTabs = styled(Tabs)`
     font-size: 1.2rem;
-    width:50%;
+    width:100%;
     
 `
 WrapperTabs.tabsRole = "Tabs";
@@ -36,12 +36,15 @@ WrapperTab.tabsRole = "Tab";
 export const WrapperTabPanel = styled(TabPanel)`
     padding:.75em;
     margin:1em;
+    width:100%;
     border: 1px solid #ccc;
     box-shadow: 0 0 1em rgba(0, 0, 0, 0.2);
     display: none;
 
     &.is-selected{
-        display: block;
+        
+        display: flex;
+        flex-wrap: wrap;
     }
 
 `

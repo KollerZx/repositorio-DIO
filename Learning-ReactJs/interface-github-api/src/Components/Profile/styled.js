@@ -14,6 +14,10 @@ export const Avatar = styled.img`
 export const WrapperUsername = styled.div`
     display:flex;
     align-items: center;
+    a{
+        font-size: 1.2rem;
+        text-decoration: none;
+    }
     h3{
         margin-right: .5em;
     }

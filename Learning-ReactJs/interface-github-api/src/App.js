@@ -1,21 +1,21 @@
 import React from 'react'
 import Layout from "./Components/Layout"
+import NoSearch from './Components/NoSearch'
 import Profile from './Components/Profile'
 import Repositories from './Components/Repositories'
-import { GlobalCSS } from './Global/globalCSS'
-import GithubProvider from './Providers/github-provider'
-
+import useGithub from './Hooks/github-hooks'
 const App = () => {
+  const { githubState } = useGithub()
   return (
-    <main>
-      <GithubProvider>
-        <GlobalCSS/>
         <Layout>
-          <Profile/>
-          <Repositories/>
+          {
+          githubState.hasUser ? 
+            githubState.loading ? <p>Loading...</p> : <><Profile/> <Repositories/> </>       
+          :
+            <NoSearch/>
+          }
+          
         </Layout>
-      </GithubProvider>
-    </main>
   )
 }
 export default App
