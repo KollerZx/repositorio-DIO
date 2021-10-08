@@ -83,7 +83,7 @@ const GithubProvider = ({ children }) => {
     const contextValue = {
         githubState,
         getUser: useCallback(username => getUser(username),[getUser]),
-        getUserRepos: useCallback(username => getUserRepos(username), [])
+        getUserRepos: useCallback(username => getUserRepos(username), [getUserRepos])
     }
     return <GithubContext.Provider value={ contextValue }>{ children }</GithubContext.Provider >
 }

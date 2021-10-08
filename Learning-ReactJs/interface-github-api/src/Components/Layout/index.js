@@ -1,15 +1,19 @@
 import useGithub from '../../Hooks/github-hooks'
 import Header from '../Header'
-import * as S from './styled'
 
 const Layout = ({ children}) =>{
     const { githubState } = useGithub()
 
     return (
-        <S.WrapperLayout>
+        <section className="container text-center">
             <Header/>
-            {githubState.loading ? <p>Loading...</p> : <>{ children }</> }
-        </S.WrapperLayout>
+            { githubState.loading ? 
+            <div class="spinner-border m-5" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div> 
+            : 
+            <>{ children }</> }
+        </section>
     )
 }
 

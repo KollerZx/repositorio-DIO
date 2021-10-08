@@ -1,38 +1,39 @@
 import useGithub from '../../Hooks/github-hooks'
-import * as S from './styled'
 
-const Profile = () =>{
-    const {githubState} = useGithub()
-    return(
-        <S.Wrapper>
-            <S.Avatar src={ githubState.user.avatar_url } alt="Avatar do Usuário"/>
-            <S.WrapperInfoUser>
-                <h1>{ githubState.user.name }</h1>
-                <S.WrapperUsername>
-                    <h3>Username: </h3>
-                    <a href={ githubState.user.html_url } target="_blank" rel="noreferrer">{ githubState.user.login }</a>
-                </S.WrapperUsername>
-                <S.WrapperStatusCount>
-                    <div>
-                        <h4>Followers: </h4>
-                        <span>{ githubState.user.followers }</span>
+const Profile = () => {
+    const { githubState } = useGithub()
+    return (
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mt-3">
+                    <img src={githubState.user.avatar_url} alt="Avatar do Usuário" className="rounded-circle" />
+                </div>
+                <div class="col-lg-6 d-flex flex-column align-items-start mx-4 mt-3">
+                    <h1>{githubState.user.name}</h1>
+                    <div className="d-flex align-items-center mt-2">
+                        <h3>Username: </h3>
+                        <a className="nav-link" href={githubState.user.html_url} target="_blank" rel="noreferrer"><h4>{githubState.user.login}</h4></a>
                     </div>
-                    <div>
-                        <h4>Followings: </h4>
-                        <span>{ githubState.user.following }</span>
+                    <div class="row">
+                        <div class="col mt-2">
+                            <h4>Followers: </h4>
+                            <p>{githubState.user.followers}</p>
+                        </div>
+                        <div class="col mt-2">
+                            <h4>Followings: </h4>
+                            <p>{githubState.user.following}</p>
+                        </div>
+                        <div class="col mt-2">
+                            <h4>Repos: </h4>
+                            <p>{githubState.user.public_repos}</p>
+                        </div>
                     </div>
-                    <div>
-                        <h4>Gists: </h4>
-                        <span>{ githubState.user.public_gists }</span>
-                    </div>
-                    <div>
-                        <h4>Repos: </h4>
-                        <span>{ githubState.user.public_repos }</span>
-                    </div>
-                </S.WrapperStatusCount>
-            </S.WrapperInfoUser>
-        </S.Wrapper>
+                </div>
+            </div>
+        </div>
     )
 }
 
 export default Profile
+
+

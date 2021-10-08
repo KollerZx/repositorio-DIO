@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import useGithub from '../../Hooks/github-hooks'
-import * as S from './styled'
 const Header = () => {
 
     const { getUser } = useGithub()
@@ -11,10 +10,10 @@ const Header = () => {
     }
     return(
         <header>
-            <S.Wrapper>
-                <input type="text" placeholder="Digite o Username" onChange={ event => setUsernameForSearch(event.target.value)}></input>
-                <button type="submit" onClick={ submitGetUser }>Search</button>
-            </S.Wrapper>
+            <div className="d-flex p-5">
+                <input class="form-control me-2" type="search" placeholder="Digite o Username" aria-label="Search" onChange={ event => setUsernameForSearch(event.target.value)}/>
+                <button class="btn btn-outline-success" type="submit" onClick={ submitGetUser }>Search</button>
+            </div>
         </header>
     )
     

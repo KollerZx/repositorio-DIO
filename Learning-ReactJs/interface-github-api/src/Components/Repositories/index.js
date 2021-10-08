@@ -1,6 +1,7 @@
 import RepositoryItem from '../Repository-item'
 import useGithub from '../../Hooks/github-hooks'
-import * as S from './styled'
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
 import { useEffect, useState } from 'react'
 
 const Repositories = () => {
@@ -19,21 +20,22 @@ const Repositories = () => {
         <>
             {hasUserSearchForRepos ?
                 (
-                    <S.WrapperTabs 
+                    <Tabs 
                     selectedTabClassName="is-selected"
-                    selectedTabPanelClassName="is-selected"    
+                    selectedTabPanelClassName="is-selected"
+                    className="container mt-3"    
                     >
-                        <S.WrapperTabList>
-                            <S.WrapperTab>Repositories</S.WrapperTab>
-                            <S.WrapperTab>Starred</S.WrapperTab>
-                        </S.WrapperTabList>
-                        <S.WrapperTabPanel>
+                        <TabList className="d-flex mt-5 pagination">
+                            <Tab className="rounded-3 btn btn-secondary p-2 me-2">Repositories</Tab>
+                            <Tab className="rounded-3 btn btn-secondary p-2">Starred</Tab>
+                        </TabList>
+                        <TabPanel className="row">
                             {githubState.repositories.map(repo => {
-                                return <RepositoryItem key={repo.id} name={repo.name} fullName={repo.full_name} linkToRepo={repo.html_url}/>
+                                return <RepositoryItem className="col" key={repo.id} name={repo.name} fullName={repo.full_name} linkToRepo={repo.html_url}/>
                             })}
-                        </S.WrapperTabPanel>
-                        <S.WrapperTabPanel>Starred</S.WrapperTabPanel>
-                    </S.WrapperTabs>
+                        </TabPanel>
+                        <TabPanel className="row">Starred</TabPanel>
+                    </Tabs>
                 )
                 :
                 (<></>)
