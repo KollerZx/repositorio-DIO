@@ -12,7 +12,7 @@ const Header = () => {
         <header>
             <div className="d-flex p-5">
                 <input class="form-control me-2" type="search" placeholder="Digite o Username" aria-label="Search" onChange={ event => setUsernameForSearch(event.target.value)}/>
-                <button class="btn btn-outline-success" type="submit" onClick={ submitGetUser }>Search</button>
+                <button class="btn btn-secondary" type="submit" onClick={ submitGetUser }>Search</button>
             </div>
         </header>
     )

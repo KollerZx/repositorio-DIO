@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Providers from './providers';
+import Providers from './Providers';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './Components/Repositories/Repositories.css'
+import './Global/index.css'
 ReactDOM.render(
     <Providers/>,
     document.getElementById('root')
