@@ -3,8 +3,8 @@ import useGithub from '../../Hooks/github-hooks'
 const Profile = () => {
     const { githubState } = useGithub()
     return (
-        <div class="container">
-            <div class="row">
+        <div id="profile" class="container rounded p-5">
+            <div class="row card-profile p-3">
                 <div class="col-lg-4 mt-3">
                     <img src={githubState.user.avatar_url} alt="Avatar do Usuário" className="rounded-circle" />
                 </div>

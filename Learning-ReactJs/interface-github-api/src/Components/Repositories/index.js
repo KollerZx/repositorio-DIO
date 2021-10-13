@@ -31,7 +31,7 @@ const Repositories = () => {
                         </TabList>
                         <TabPanel className="row">
                             {githubState.repositories.map(repo => {
-                                return <RepositoryItem className="row gx-5" key={repo.id} name={repo.name} fullName={repo.full_name} linkToRepo={repo.html_url}/>
+                                return <RepositoryItem className="row" key={repo.id} name={repo.name} fullName={repo.full_name} linkToRepo={repo.html_url}/>
                             })}
                         </TabPanel>
                         <TabPanel className="row">Starred</TabPanel>

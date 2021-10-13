@@ -14,7 +14,6 @@ const App = () => {
           :
             <NoSearch/>
           }
-          
         </Layout>
   )
 }

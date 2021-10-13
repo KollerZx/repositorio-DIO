@@ -1,13 +1,12 @@
 .btn-secondary{
-    background: #8e9eab;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #eef2f3, #8e9eab);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #eef2f3, #8e9eab); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: #F6F8FA;  /* fallback for old browsers */
     
-
     color:#0F2027;
     transition: 0.3s ease;
     &:hover{
-        opacity: 0.8;
+        background: #F6F8FA;
+        opacity: .75;
+        color:#0F2027;
     }
     
 }
@@ -15,9 +14,21 @@
     color:#0F2027;
 }
 body{
-    background: #141E30;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #243B55, #141E30);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #243B55, #141E30); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: hsla(0, 0%, 3%, 1);
 
-    color: #fff;
+    background: linear-gradient(135deg, hsla(0, 0%, 3%, 1) 0%, hsla(200, 2%, 28%, 1) 50%);
+    
+    background: -moz-linear-gradient(135deg, hsla(0, 0%, 3%, 1) 0%, hsla(200, 2%, 28%, 1) 50%);
+    
+    background: -webkit-linear-gradient(135deg, hsla(0, 0%, 3%, 1) 0%, hsla(200, 2%, 28%, 1) 50%);
+    
+}
+#profile{
+    background-color: #F6F8FA;
+    color:#070707;
+}
+.card-profile{
+    background-color: #ffffff;
+    border: 1px solid #D0D7DE;
+    border-radius:1em;
 }
