@@ -1,9 +1,9 @@
-import { Router, Request, Response} from 'express'
+import {URLController} from './Controllers/URLController'
+import { Request, Response, Router } from 'express'
 
 const router = Router()
+const urlController = new URLController()
 
-router.get('/',(req: Request, res: Response) => {
-    return res.status(200).send('hello world')
-})
+router.post('/shorten', async ( req: Request, res: Response) => await urlController.shorten(req,res))
 
 export default router
