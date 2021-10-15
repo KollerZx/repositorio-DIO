@@ -9,7 +9,7 @@ In the project directory, you can run:
 
 Then: 
 
-`yarn start` or `npm start`
+`yarn dev` or `npm dev`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
