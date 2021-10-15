@@ -1,7 +1,13 @@
+import dotenv from 'dotenv'
+dotenv.config()
+
 import express, { urlencoded } from 'express'
 import cors from 'cors'
 import router from './routes'
+import { MongoConnection } from './database/MongoConnection'
 const app = express()
+const database = new MongoConnection()
+database.connect()
 
 app.use(express.json())
 app.use(urlencoded({ extended: true }))

@@ -5,5 +5,5 @@ const router = Router()
 const urlController = new URLController()
 
 router.post('/shorten', async ( req: Request, res: Response) => await urlController.shorten(req,res))
-
+router.get('/:hash', async (req: Request, res: Response) => await urlController.redirect(req,res))
 export default router
