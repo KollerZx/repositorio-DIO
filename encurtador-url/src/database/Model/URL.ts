@@ -1,9 +1,6 @@
 import { prop, Typegoose } from 'typegoose'
 
 export class URL extends Typegoose{
-    constructor(){
-        super()
-    }
     @prop({ required: true })
     hash: string
     
