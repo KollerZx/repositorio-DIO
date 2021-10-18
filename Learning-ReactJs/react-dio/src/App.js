@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Hooks } from './Hooks'
+import { useEffect, useState } from 'react'
+import Hooks from './Hooks'
 const App = () => {
     const [stateLoading, setStateLoading] = useState({
         loading: false
@@ -9,6 +9,11 @@ const App = () => {
         actived:true
     })
 
+    useEffect(() => {
+        setTimeout(() => {
+            handleLoading()
+        },3000)
+    },[])
     const handleLoading = () => {
         setStateLoading({
             loading: !stateLoading.loading

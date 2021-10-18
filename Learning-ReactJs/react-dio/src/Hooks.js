@@ -1,5 +1,9 @@
-import { useEffect} from "react"
+import { useEffect, memo} from "react"
 
+const areEqual = (prevProps, nextProps) => {
+    return prevProps.loading === nextProps.loading
+    
+}
 
 const Hooks = (props) => {
     const { loading } = props
@@ -26,4 +30,4 @@ const Hooks = (props) => {
         </>
     )
 }
-export { Hooks }
+export default memo(Hooks, areEqual)
