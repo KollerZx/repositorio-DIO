@@ -1,39 +1,18 @@
+import { ThemeContext, themes } from './Theme'
+import { Card } from './Card'
 import { useEffect, useState } from 'react'
-import Hooks from './Hooks'
 const App = () => {
-    const [stateLoading, setStateLoading] = useState({
-        loading: false
-        
-    })
-    const [stateActived, setStateActivded] = useState({
-        actived:true
-    })
-
+    const [token, setToken] = useState()
     useEffect(() => {
         setTimeout(() => {
-            handleLoading()
-        },3000)
-    },[])
-    const handleLoading = () => {
-        setStateLoading({
-            loading: !stateLoading.loading
-        })
-    }
-
-    const onRemove = () => {
-        setStateActivded({
-            actived: !stateActived.actived
-        })
-    }
-
+            setToken('3434564654ad4ad78f')
+        }, 4000)
+    },[setToken])
     return(
-        <>
-            <h1>USANDO HOOKS</h1>
-            <button onClick={ handleLoading }> Loading </button>
-            { stateActived.actived ? (<Hooks loading={stateLoading.loading}/>) : <></>}
-            <button onClick={ onRemove }>Componente</button>
-            
-        </>
+        <ThemeContext.Provider value={{ ...themes.primary, token }}>
+            <h1>CONTEXT API</h1>
+            <Card/>
+        </ThemeContext.Provider>
     )
 }
 export default App
